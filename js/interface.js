@@ -3,6 +3,10 @@ Fliplet().then(function() {
 
   data.passportType = 'saml2';
 
+  if (data.basicAuth === true) {
+    $('input[name="basicAuth"]').prop('checked', true);
+  }
+
   $(window).on('resize', Fliplet.Widget.autosize);
 
   var linkProvider = Fliplet.Widget.open('com.fliplet.link', {
@@ -24,6 +28,7 @@ Fliplet().then(function() {
 
   linkProvider.then(function(res) {
     data.buttonLabel = $('[name="buttonLabel"]').val();
+    data.basicAuth = !!$('input[name="basicAuth"]:checked').length;
     data.redirectAction = res.data;
 
     Fliplet.Widget.save(data).then(function() {

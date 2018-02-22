@@ -1,7 +1,33 @@
-<div class="sso-login text-center">
-  <button class="btn btn-primary" data-sso-saml-id="{{ id }}">{{#if buttonLabel}}{{ buttonLabel }}{{else}}Sign in{{/if}}</button>
+<div class="sso-login" data-sso-saml-id="{{ id }}">
+  <form>
+    {{#if basicAuth}}
+      <div class="form-group">
+        <div class="col-sm-12 control-label">
+          <label for="username">Username or Email address</label>
+        </div>
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="username" placeholder="" value=""
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12 control-label">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="password" placeholder="Password" value="" />
+          <br />
+        </div>
+      </div>
+    {{/if}}
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input class="form-control btn-primary" type="submit" value="{{#if buttonLabel}}{{ buttonLabel }}{{else}}Sign in{{/if}}" />
+      </div>
+    </div>
+  </form>
   <div class="sso-error-holder text-danger hidden"></div>
-</div>
-<div class="sso-confirmation text-center">
-  <p>You are successfully logged in. Redirecting...</p>
+  <div class="sso-confirmation text-center">
+    <p>You are successfully logged in. Redirecting...</p>
+  </div>
 </div>

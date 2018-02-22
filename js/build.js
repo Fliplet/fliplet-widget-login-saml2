@@ -1,9 +1,12 @@
 Fliplet.Widget.instance('sso-saml', function(data) {
   // Load session and prepare cookie
   Fliplet.Session.get();
-  $('.sso-login').fadeIn(250);
+  var $el = $(this);
+  var $form = $el.find('form');
 
-  $(this).click(function(event) {
+  $el.fadeIn(250);
+
+  $form.submit(function(event) {
     event.preventDefault();
 
     if (!data.passportType || !data.redirectAction) {
@@ -11,7 +14,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
       return;
     }
 
-    $('.sso-error-holder').addClass('hidden');
+    $el.find('.sso-error-holder').addClass('hidden');
 
     var ssoProviderPackageName = 'com.fliplet.sso.' + data.passportType;
     var ssoProvider = Fliplet.Widget.get(ssoProviderPackageName);
@@ -21,10 +24,13 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     }
 
     ssoProvider
-      .authorize()
+      .authorize({
+        username: $form.find('input[name="username"]').val(),
+        password: $form.find('input[name="password"]').val()
+      })
       .then(function onAuthorized() {
-        $('.sso-login').hide();
-        $('.sso-confirmation').fadeIn(250, function() {
+        $form.hide();
+        $el.find('.sso-confirmation').fadeIn(250, function() {
           setTimeout(function() {
             Fliplet.Navigate.to(data.redirectAction);
           }, 100);
@@ -33,8 +39,8 @@ Fliplet.Widget.instance('sso-saml', function(data) {
       .catch(function onError(err) {
         // woop woop
         console.error(err);
-        $('.sso-error-holder').html(err);
-        $('.sso-error-holder').removeClass('hidden');
+        $el.find('.sso-error-holder').html(err);
+        $el.find('.sso-error-holder').removeClass('hidden');
       });
   });
 });

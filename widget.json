@@ -20,7 +20,8 @@
   "build": {
     "dependencies": [
       "bootstrap",
-      "fliplet-core"
+      "fliplet-core",
+      "fliplet-session"
     ],
     "assets": [
       "js/build.js",
