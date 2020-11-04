@@ -28,12 +28,3 @@
   color: #333;
   opacity: 0.5;
 }
-
-.header-block {
-  padding-bottom: 0.5em;
-}
-
-.header-block p {
-  flex: none;
-  margin: 0;
-}
