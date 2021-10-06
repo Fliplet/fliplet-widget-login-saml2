@@ -22,7 +22,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     event.preventDefault();
 
     if (!data.passportType || !data.redirectAction) {
-      Fliplet.UI.Toast(T('widgets.login.saml2.toasts.info'));
+      Fliplet.UI.Toast(T('widgets.login.saml2.errorToast.incompleteConfiguration'));
       return;
     }
 
