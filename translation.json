@@ -6,7 +6,7 @@
         "wait": "Please wait...",
         "verifying": "Verifying your login...",
         "errors": {
-          "notConnected": "Please make sure you're connected to the internet before logging in."
+          "offline": "Please make sure you're connected to the internet before logging in."
         },
         "errorToast": {
           "incompleteConfiguration": "Incomplete component configuration"

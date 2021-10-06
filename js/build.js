@@ -14,7 +14,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
   }).catch(function(err) {
     $btn.text(buttonLabel).removeClass('disabled');
     console.error('Could not load the session', err);
-    $error.html(err.message || err.description || T('widgets.login.saml2.errors.notConnected'));
+    $error.html(err.message || err.description || T('widgets.login.saml2.errors.offline'));
     $error.removeClass('hidden');
   });
 
