@@ -4,7 +4,9 @@ Fliplet.Widget.instance('sso-saml', function(data) {
 
   var buttonLabel = $btn.text();
 
-  $btn.text('Please wait...').addClass('disabled');
+  $(this).translate();
+
+  $btn.text(T('widgets.login.saml2.wait')).addClass('disabled');
 
   // Load session and prepare cookie
   Fliplet.Session.get().then(function() {
@@ -12,7 +14,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
   }).catch(function(err) {
     $btn.text(buttonLabel).removeClass('disabled');
     console.error('Could not load the session', err);
-    $error.html(err.message || err.description || 'Please make sure you\'re connected to the internet before logging in.');
+    $error.html(err.message || err.description || T('widgets.login.saml2.errors.notConnected'));
     $error.removeClass('hidden');
   });
 
@@ -20,7 +22,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     event.preventDefault();
 
     if (!data.passportType || !data.redirectAction) {
-      Fliplet.UI.Toast('Incomplete component configuration');
+      Fliplet.UI.Toast(T('widgets.login.saml2.toasts.info'));
       return;
     }
 
@@ -33,7 +35,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
       throw new Error('Provider ' + ssoProviderPackageName + ' has not registered on Fliplet.Widget.register with an "authorize()" function.');
     }
 
-    $btn.text('Please wait...').addClass('disabled');
+    $btn.text(T('widgets.login.saml2.wait')).addClass('disabled');
 
     ssoProvider.authorize(data).then(function onAuthorized() {
       return Fliplet.UI.Toast({
@@ -41,7 +43,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         backdrop: true,
         tapToDismiss: false,
         duration: false,
-        message: 'Verifying your login...'
+        message: T('widgets.login.saml2.verifying')
       }).then(function(toast) {
         return Fliplet.Session.passport('saml2').data().then(function(response) {
           var user = {
