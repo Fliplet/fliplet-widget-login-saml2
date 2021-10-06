@@ -1,0 +1,17 @@
+{
+  "widgets": {
+    "login": {
+      "saml2": {
+        "success": "You are successfully logged in. Redirecting...",
+        "wait": "Please wait...",
+        "verifying": "Verifying your login...",
+        "errors": {
+          "offline": "Please make sure you're connected to the internet before logging in."
+        },
+        "errorToast": {
+          "incompleteConfiguration": "Incomplete component configuration"
+        }
+      }
+    }
+  }
+}
