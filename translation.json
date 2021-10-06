@@ -8,8 +8,8 @@
         "errors": {
           "notConnected": "Please make sure you're connected to the internet before logging in."
         },
-        "toasts": {
-          "info": "Incomplete component configuration"
+        "errorToast": {
+          "incompleteConfiguration": "Incomplete component configuration"
         }
       }
     }
