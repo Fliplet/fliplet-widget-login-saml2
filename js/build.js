@@ -15,7 +15,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     }).catch(function(err) {
       $btn.text(buttonLabel).removeClass('disabled');
       console.error('Could not load the session', err);
-      $error.html(err.message || err.description || T('widgets.login.saml2.errors.offline'));
+      $error.html(Fliplet.parseError(err));
       $error.removeClass('hidden');
     });
 
@@ -24,6 +24,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
 
       if (!data.passportType || !data.redirectAction) {
         Fliplet.UI.Toast(T('widgets.login.saml2.errorToast.incompleteConfiguration'));
+
         return;
       }
 
@@ -65,7 +66,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
                 passport: 'saml2',
                 userProfile: response.user
               });
-            }).then(function () {
+            }).then(function() {
               toast.dismiss();
 
               $('.sso-confirmation').fadeIn(250, function() {
