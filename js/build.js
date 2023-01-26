@@ -10,13 +10,57 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     $btn.text(T('widgets.login.saml2.wait')).addClass('disabled');
 
     // Load session and prepare cookie
-    Fliplet.Session.get().then(function() {
+    Fliplet.Session.get().then(function(session) {
       $btn.text(buttonLabel).removeClass('disabled');
+
+      // User not logged in
+      if (!session || !session.accounts) {
+        return Promise.reject();
+      }
+
+      var saml2Accounts = session.accounts.saml2 || [];
+
+      // No SAML2 account found
+      if (!saml2Accounts.length) {
+        return Promise.reject();
+      }
+
+      var entry = saml2Accounts[0];
+
+      // Update stored user data on retrieved session
+      var user = {
+        type: 'saml2',
+        organizationId: Fliplet.Env.get('organizationId'),
+        region: Fliplet.User.getAuthToken().substr(0, 2)
+      };
+
+      _.assignIn(user, _.pick(entry.user, ['id', 'email', 'firstName', 'lastName']));
+
+      return Fliplet.Profile.set({
+        user: user,
+        email: _.get(entry, 'user.email'),
+        firstName: _.get(entry, 'user.firstName'),
+        lastName: _.get(entry, 'user.lastName')
+      }).then(function() {
+        return Fliplet.Hooks.run('sessionValidate', {
+          passport: 'saml2',
+          userProfile: entry.user
+        });
+      });
+    }).then(function() {
+      if (typeof data.redirectAction === 'undefined') {
+        return;
+      }
+
+      return Fliplet.Navigate.to(data.redirectAction);
     }).catch(function(err) {
       $btn.text(buttonLabel).removeClass('disabled');
       console.error('Could not load the session', err);
-      $error.html(Fliplet.parseError(err));
-      $error.removeClass('hidden');
+
+      if (err) {
+        $error.html(Fliplet.parseError(err));
+        $error.removeClass('hidden');
+      }
     });
 
     $btn.click(function(event) {
