@@ -34,13 +34,13 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         region: Fliplet.User.getAuthToken().substr(0, 2)
       };
 
-      _.assignIn(user, _.pick(entry.user, ['id', 'email', 'firstName', 'lastName']));
+      assignIn(user, FlipletLoginSAMLUtils.pick(entry.user, ['id', 'email', 'firstName', 'lastName']));
 
       return Fliplet.Profile.set({
         user: user,
-        email: _.get(entry, 'user.email'),
-        firstName: _.get(entry, 'user.firstName'),
-        lastName: _.get(entry, 'user.lastName')
+        email: FlipletLoginSAMLUtils.get(entry, 'user.email'),
+        firstName: FlipletLoginSAMLUtils.get(entry, 'user.firstName'),
+        lastName: FlipletLoginSAMLUtils.get(entry, 'user.lastName')
       }).then(function() {
         return Fliplet.Hooks.run('sessionValidate', {
           passport: 'saml2',
@@ -98,7 +98,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
               region: Fliplet.User.getAuthToken().substr(0, 2)
             };
 
-            _.assignIn(user, _.pick(response.user, ['id', 'email', 'firstName', 'lastName']));
+            assignIn(user, FlipletLoginSAMLUtils.pick(response.user, ['id', 'email', 'firstName', 'lastName']));
 
             return Fliplet.Profile.set({
               user: user,
