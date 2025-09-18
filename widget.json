@@ -10,11 +10,11 @@
   "interface": {
     "dependencies": [
       "fliplet-core",
-      "fliplet-studio-ui",
-      "lodash"
+      "fliplet-studio-ui"
     ],
     "assets": [
       "css/interface.css",
+      "js/utils.js",
       "js/interface.js"
     ]
   },
@@ -25,6 +25,7 @@
       "fliplet-session"
     ],
     "assets": [
+      "js/utils.js",
       "js/build.js",
       "css/build.css"
     ]

@@ -63,8 +63,8 @@ Fliplet().then(function() {
         return;
       }
 
-      var hooks = _.get(result.app, 'hooks', []);
-      var isSecurityConfigured = _.some(hooks, function(hook) {
+      var hooks = FlipletLoginSAMLUtils.get(result.app, 'hooks', []);
+      var isSecurityConfigured = FlipletLoginSAMLUtils.some(hooks, function(hook) {
         return hook.script.indexOf(page.id) !== -1;
       });
 
