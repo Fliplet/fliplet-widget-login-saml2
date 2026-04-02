@@ -5,7 +5,7 @@
   "icon": "img/icon.png",
   "tags": ["type:component", "category:security"],
   "provider_only": false,
-  "references": [],
+  "references": ["redirectAction.page:page"],
   "html_tag": "div",
   "interface": {
     "dependencies": [
