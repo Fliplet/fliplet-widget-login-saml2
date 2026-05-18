@@ -28,3 +28,32 @@
   color: #333;
   opacity: 0.5;
 }
+
+.basic-auth-toggle {
+  margin: 15px 0;
+}
+
+.basic-auth-toggle a {
+  color: #00abd1;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.basic-auth-toggle a:hover,
+.basic-auth-toggle a:focus {
+  text-decoration: underline;
+}
+
+.basic-auth-toggle .toggle-chevron {
+  transition: transform 0.2s ease-in-out;
+  margin-right: 4px;
+}
+
+.basic-auth-toggle a.expanded .toggle-chevron {
+  transform: rotate(90deg);
+}
+
+.basic-auth-panel {
+  margin-top: 10px;
+}
