@@ -23,16 +23,22 @@
     </div>
   </div>
   <div id="ssoProvider"></div>
-  <hr />
-  <div class="form-group">
-    <div class="col-sm-4 control-label">
-      <label for="basicAuth">Basic Access Authentication</label>
-    </div>
-    <div class="col-sm-8">
-      <input type="checkbox" id="basicAuth" name="basicAuth" /> Check this if your SAML2 server requires the credentials to be set using "Basic Access Authentication". If you're unsure,
-      leave this unchecked.
+  <div class="basic-auth-toggle">
+    <a role="button" data-toggle="collapse" href="#basicAuthPanel" aria-expanded="false" aria-controls="basicAuthPanel">
+      <i class="fa fa-chevron-right toggle-chevron"></i> <span class="toggle-label">Show Basic Authentication Option</span>
+    </a>
+  </div>
+  <div class="collapse basic-auth-panel" id="basicAuthPanel">
+    <div class="form-group">
+      <div class="col-sm-4 control-label">
+        <label for="basicAuth">Basic Access Authentication</label>
+      </div>
+      <div class="col-sm-8">
+        <input type="checkbox" id="basicAuth" name="basicAuth" /> Check this if your SAML2 server requires the credentials to be set using "Basic Access Authentication". If you're unsure, leave this unchecked.
+      </div>
     </div>
   </div>
+  <hr />
   <h3><small>After login, the user is redirected to a screen</small></h3>
   <div id="redirectAction"></div>
 </form>

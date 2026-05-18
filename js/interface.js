@@ -6,13 +6,38 @@ Fliplet().then(function() {
 
   data.passportType = 'saml2';
 
-  if (data.basicAuth === true) {
-    $('input[name="basicAuth"]').prop('checked', true);
-  }
-
   $(window).on('resize', Fliplet.Widget.autosize);
 
   checkSecurityRules();
+
+  // Defaults to unchecked — only enable when explicitly saved as true
+  $('[name="basicAuth"]').prop('checked', data.basicAuth === true);
+
+  if (data.basicAuth === true) {
+    $('#basicAuthPanel').addClass('in').attr('aria-expanded', 'true');
+    $('[href="#basicAuthPanel"]')
+      .addClass('expanded')
+      .attr('aria-expanded', 'true')
+      .find('.toggle-label').text('Hide Basic Authentication Option');
+  }
+
+  $('#basicAuthPanel').on('shown.bs.collapse hidden.bs.collapse', function() {
+    Fliplet.Widget.autosize();
+  });
+
+  $('#basicAuthPanel').on('show.bs.collapse', function() {
+    $('[href="#basicAuthPanel"]')
+      .addClass('expanded')
+      .attr('aria-expanded', 'true')
+      .find('.toggle-label').text('Hide Basic Authentication Option');
+  });
+
+  $('#basicAuthPanel').on('hide.bs.collapse', function() {
+    $('[href="#basicAuthPanel"]')
+      .removeClass('expanded')
+      .attr('aria-expanded', 'false')
+      .find('.toggle-label').text('Show Basic Authentication Option');
+  });
 
   var linkProvider = Fliplet.Widget.open('com.fliplet.link', {
     selector: '#redirectAction',
@@ -34,8 +59,8 @@ Fliplet().then(function() {
 
   linkProvider.then(function(res) {
     data.buttonLabel = $('[name="buttonLabel"]').val();
-    data.basicAuth = !!$('input[name="basicAuth"]:checked').length;
     data.redirectAction = res.data;
+    data.basicAuth = !!$('[name="basicAuth"]').prop('checked');
 
     Fliplet.Widget.save(data).then(function() {
       Fliplet.Widget.complete();
