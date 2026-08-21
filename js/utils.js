@@ -115,8 +115,16 @@ function findAccountForApp(accounts, appIds) {
     return account && account.appId !== null && account.appId !== undefined;
   });
 
-  if (!isAppIdentifiable || !ids.length) {
+  if (!isAppIdentifiable) {
     return accounts[0];
+  }
+
+  // The entries name the app they belong to but we cannot tell which app we
+  // are: fail closed, matching the server. Returning accounts[0] here would
+  // restore the cross-app redirect while the API denies the data — the exact
+  // dead end this change exists to remove.
+  if (!ids.length) {
+    return undefined;
   }
 
   for (var j = 0; j < accounts.length; j++) {

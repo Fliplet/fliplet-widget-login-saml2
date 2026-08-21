@@ -36,7 +36,11 @@ const cases = [
   ['tolerates string app ids', findAccountForApp([appA, appB], ['202']), appB],
   ['ignores empty/undefined app ids', findAccountForApp([appA, appB], [null, undefined, '', 202]), appB],
   ['falls back to index 0 for pre-PS-1005 entries with no appId', findAccountForApp([legacy], [202]), legacy],
-  ['falls back to index 0 when the app id is unknown', findAccountForApp([appA, appB], []), appA]
+  ['keeps the legacy fallback even when the app id is unknown', findAccountForApp([legacy], []), legacy],
+  // Fail closed rather than reopening the cross-app redirect: the entries name
+  // their app, we just cannot tell which app we are.
+  ['returns nothing when app-identifiable entries cannot be matched to this app', findAccountForApp([appA, appB], []), undefined],
+  ['returns nothing when the app ids are all empty', findAccountForApp([appA, appB], [null, undefined, '']), undefined]
 ];
 
 cases.forEach(function(testCase) {
