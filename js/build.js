@@ -33,7 +33,28 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         return Promise.reject();
       }
 
-      var entry = saml2Accounts[0];
+      // In Studio, one account session is shared across every app opened in
+      // preview, so the session can carry a SAML2 login that belongs to another
+      // app. Taking entry 0 there skips the login screen and redirects, while
+      // the API denies this app's data — the user is stuck with no way to
+      // authenticate (PS-1005). Only reuse a login that was issued for the app
+      // this component is running in. Outside preview the session belongs to a
+      // single end user and is left alone, so the legitimate portal ->
+      // sub-portal shared session (PS-1342) is unaffected.
+      var entry = Fliplet.Env.get('preview')
+        ? FlipletLoginSAMLUtils.findAccountForApp(saml2Accounts, [
+          Fliplet.Env.get('appId'),
+          appId
+        ])
+        : saml2Accounts[0];
+
+      // The session holds no SAML2 login for this app: fall through to the
+      // login button rather than redirecting as if the user were signed in.
+      if (!entry) {
+        console.log(logPrefix, 'init() — saml2 session belongs to another app, showing login button');
+
+        return Promise.reject();
+      }
 
       console.log(logPrefix, 'init() — existing saml2 session found, user:', FlipletLoginSAMLUtils.get(entry, 'user.email'), '— auto-redirecting');
 
