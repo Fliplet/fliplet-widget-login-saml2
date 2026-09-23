@@ -1,0 +1,24 @@
+# The repo had no test CI: the CircleCI app is installed but the project has no
+# checkout key, so its check fails on every pull request regardless of the code.
+# GitHub Actions needs no external setup, and these tests have no dependencies.
+name: Tests
+
+on:
+  - push
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Selection helper
+        run: node tests/findAccountForApp.js
+
+      - name: Returning-session behaviour
+        run: node tests/build-app-scope.js
