@@ -10,6 +10,10 @@ Fliplet().then(function() {
     $('input[name="basicAuth"]').prop('checked', true);
   }
 
+  if (data.androidSystemBrowser === true) {
+    $('input[name="androidSystemBrowser"]').prop('checked', true);
+  }
+
   $(window).on('resize', Fliplet.Widget.autosize);
 
   checkSecurityRules();
@@ -35,6 +39,7 @@ Fliplet().then(function() {
   linkProvider.then(function(res) {
     data.buttonLabel = $('[name="buttonLabel"]').val();
     data.basicAuth = !!$('input[name="basicAuth"]:checked').length;
+    data.androidSystemBrowser = !!$('input[name="androidSystemBrowser"]:checked').length;
     data.redirectAction = res.data;
 
     Fliplet.Widget.save(data).then(function() {
